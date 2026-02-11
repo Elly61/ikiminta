@@ -1,0 +1,72 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# User uploads (keep directories but not files)
+public/uploads/deposits/*
+public/uploads/loans/*
+public/uploads/transfers/*
+public/uploads/savings/*
+public/uploads/profile/*
+!public/uploads/**/.gitkeep
+
+# Temporary files
+application/temp/*
+!application/temp/.gitignore
+*.tmp
+*.swp
+*.swo
+*~
+
+# IDE and editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+*.code-workspace
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test files (optional - may want to keep for CI)
+# tests/
+
+# Development/debug files
+db_test.php
+test.php
+quick_test.php
+require_test.php
+session_test.php
+
+# Fix documentation (not needed in production)
+ERROR_FIX.md
+FINAL_FIX.md
+FIX_COMPLETE.md
+FIXES_APPLIED.txt
+README_FIX.txt
+QUICK_FIX.txt
+SOLUTION_SUMMARY.txt
+
+# SQL files (imported separately, not deployed)
+*.sql
+
+# Composer (if used later)
+vendor/
+composer.lock
+
+# Node (if used later)
+node_modules/
+package-lock.json

@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.repository_owner != ''
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync files to server via rsync over SSH
+        uses: burnett01/rsync-deployments@5.2
+        with:
+          switches: -avz --delete --exclude '.git' --exclude '.github' --exclude 'tests' --exclude '*.sql' --exclude 'README_FIX.txt' --exclude 'QUICK_FIX.txt'
+          path: ./
+          remote_path: ${{ secrets.DEPLOY_REMOTE_PATH }}
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Post-deploy commands
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd ${{ secrets.DEPLOY_REMOTE_PATH }}
+            mkdir -p logs public/uploads public/uploads/profile
+            chmod 755 logs public/uploads public/uploads/profile
+            # Optional: run database migrations if you have a script
+            # php migrations/run.php

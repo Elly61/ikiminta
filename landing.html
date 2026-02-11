@@ -1,0 +1,219 @@
+<!-- Quick Start Landing Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKIMINA - Financial Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .landing-container {
+            max-width: 800px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .landing-header {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .landing-header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .landing-header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .landing-content {
+            padding: 40px;
+        }
+
+        .landing-content h2 {
+            color: #111827;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .quick-links a {
+            display: block;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .quick-links a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .features {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .features h3 {
+            color: #111827;
+            margin-bottom: 15px;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #374151;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .documentation {
+            background: #dbeafe;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .documentation a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .documentation a:hover {
+            text-decoration: underline;
+        }
+
+        .admin-notice {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .landing-header {
+                padding: 40px 20px;
+            }
+
+            .landing-header h1 {
+                font-size: 32px;
+            }
+
+            .landing-content {
+                padding: 20px;
+            }
+
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="landing-container">
+    <div class="landing-header">
+        <h1>IKIMINA</h1>
+        <p>Financial Management System</p>
+    </div>
+
+    <div class="landing-content">
+        <h2>Welcome to IKIMINA</h2>
+
+    
+
+        <h3 style="margin-top: 20px; margin-bottom: 15px; color: #111827;">Quick Access</h3>
+        <div class="quick-links">
+            <a href="member/auth/login">👤 Member Login</a>
+            <a href="member/auth/register">📝 Member Register</a>
+            <a href="admin/auth/login">🔐 Admin Login</a>
+        </div>
+
+        <div class="documentation">
+            📖 <strong>Documentation:</strong>
+            <br>
+            <a href="README.md">Project Overview</a> | 
+            <a href="INSTALLATION.md">Installation Guide</a> | 
+            <a href="application/config/config.php">Configuration</a>
+        </div>
+
+        <div class="features">
+            <h3>✨ Key Features</h3>
+            <div class="features-list">
+                <div class="feature-item">Deposits & Withdrawals</div>
+                <div class="feature-item">Money Transfers</div>
+                <div class="feature-item">Loan Management</div>
+                <div class="feature-item">Savings Accounts</div>
+                <div class="feature-item">Blockchain Integration</div>
+                <div class="feature-item">Currency Converter</div>
+                <div class="feature-item">Transaction History</div>
+                <div class="feature-item">User Management</div>
+            </div>
+        </div>
+
+        <div style="background: #f0f9ff; border-left: 4px solid #0284c7; padding: 15px; border-radius: 5px;">
+            <strong>💡 Getting Started:</strong>
+            <ol style="margin-top: 10px; margin-left: 20px; color: #333;">
+                <li>Import <code>database.sql</code> into phpMyAdmin</li>
+                <li>Configure <code>application/config/database.php</code></li>
+                <li>Ensure Apache mod_rewrite is enabled</li>
+                <li>Start Apache and MySQL</li>
+                <li>Access the application</li>
+            </ol>
+        </div>
+    </div>
+</div>
+</body>
+</html>

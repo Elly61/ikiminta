@@ -1,0 +1,441 @@
+/* =============================================
+   PROFESSIONAL REPORT STYLES
+   IKIMINTA Financial System
+   ============================================= */
+
+:root {
+    --primary: #667eea;
+    --primary-dark: #5568d3;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --light: #f3f4f6;
+    --gray: #6b7280;
+    --text: #1f2937;
+    --border: #e5e7eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text);
+    background: var(--light);
+    line-height: 1.6;
+}
+
+.report-content {
+    padding: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ============= HEADER ============= */
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.report-header h1 {
+    font-size: 32px;
+    color: var(--text);
+    margin: 0 0 8px 0;
+    font-weight: 700;
+}
+
+.report-header p {
+    color: var(--gray);
+    margin: 0;
+    font-size: 14px;
+}
+
+/* ============= NAVIGATION ============= */
+.report-navigation {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.report-navigation a {
+   padding: 10px 18px;
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.report-navigation a:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.report-navigation a.active {
+    background: var(--text);
+    border-color: var(--text);
+}
+
+.report-navigation a[style*="background: #10b981"]:hover {
+    background: #059669 !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* ============= SUMMARY CARDS ============= */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid var(--primary);
+    transition: all 0.3s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.summary-card.deposits {
+    border-left-color: var(--success);
+}
+
+.summary-card.withdrawals {
+    border-left-color: var(--danger);
+}
+
+.summary-card.transfers {
+    border-left-color: var(--info);
+}
+
+.summary-card.net {
+    border-left-color: var(--warning);
+}
+
+.summary-card h3 {
+    color: var(--gray);
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.5px;
+}
+
+.summary-card .value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+    word-break: break-word;
+}
+
+.summary-card.deposits .value {
+    color: var(--success);
+}
+
+.summary-card.withdrawals .value {
+    color: var(--danger);
+}
+
+.summary-card.transfers .value {
+    color: var(--info);
+}
+
+.summary-card.net .value {
+    color: var(--warning);
+}
+
+/* ============= REPORT SECTIONS ============= */
+.report-section {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    page-break-inside: avoid;
+}
+
+.report-section h2 {
+    font-size: 20px;
+    color: var(--text);
+    margin: 0 0 24px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--light);
+    font-weight: 700;
+}
+
+/* ============= TABLES ============= */
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.transactions-table thead {
+    background: linear-gradient(135deg, var(--light) 0%, #f9fafb 100%);
+}
+
+.transactions-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border);
+}
+
+.transactions-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text);
+}
+
+.transactions-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.transactions-table tbody tr:hover {
+    background: var(--light);
+}
+
+.transactions-table tbody tr:nth-child(even) {
+    background: #fafbfc;
+}
+
+/* ============= STATUS BADGES ============= */
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status.completed,
+.status.approved {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status.rejected,
+.status.cancelled {
+    background: #fee2e2;
+    color: #7f1d1d;
+}
+
+.status.active {
+    background: #dbeafe;
+    color: #0c2d6b;
+}
+
+/* ============= NO DATA STATE ============= */
+.no-data {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--gray);
+    font-style: italic;
+}
+
+.no-data p {
+    margin: 0;
+    font-size: 16px;
+}
+
+/* ============= PRINT STYLES ============= */
+@media print {
+    body {
+        background: white;
+    }
+
+    .report-content {
+        padding: 0;
+    }
+
+    .report-navigation {
+        display: none;
+    }
+
+    .report-section {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid var(--border);
+    }
+
+    .summary-card {
+        page-break-inside: avoid;
+    }
+}
+
+/* ============= RESPONSIVE ============= */
+@media (max-width: 1024px) {
+    .report-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .transactions-table {
+        font-size: 12px;
+    }
+
+    .transactions-table th,
+    .transactions-table td {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .report-content {
+        padding: 20px;
+    }
+
+    .report-header {
+        gap: 15px;
+    }
+
+    .report-header h1 {
+        font-size: 24px;
+    }
+
+    .report-navigation {
+        width: 100%;
+    }
+
+    .report-navigation a {
+        flex: 1;
+        min-width: 100px;
+        justify-content: center;
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .summary-card {
+        padding: 18px;
+    }
+
+    .summary-card .value {
+        font-size: 22px;
+    }
+
+    .transactions-table {
+        font-size: 11px;
+    }
+
+    .transactions-table th,
+    .transactions-table td {
+        padding: 8px 10px;
+    }
+
+    .report-section {
+        padding: 16px;
+    }
+
+    .report-section h2 {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .report-content {
+        padding: 12px;
+    }
+
+    .report-header h1 {
+        font-size: 20px;
+    }
+
+    .report-header p {
+        font-size: 12px;
+    }
+
+    .report-navigation a {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .summary-card h3 {
+        font-size: 10px;
+    }
+
+    .summary-card .value {
+        font-size: 18px;
+    }
+
+    .transactions-table {
+        font-size: 10px;
+    }
+
+    .transactions-table th,
+    .transactions-table td {
+        padding: 6px 8px;
+    }
+}
+
+/* ============= UTILITY CLASSES ============= */
+.page-break {
+    page-break-after: always;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-muted {
+    color: var(--gray);
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.mt-3 {
+    margin-top: 15px;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}

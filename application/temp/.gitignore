@@ -1,0 +1,3 @@
+# Temporary PDF files - do not commit
+*
+!.gitignore
