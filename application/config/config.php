@@ -5,7 +5,10 @@
 
 define('APP_NAME', 'IKIMINTA');
 define('APP_VERSION', '1.0.0');
-define('APP_ENV', 'development'); // development, staging, production
+
+// Environment - can be set via environment variable
+$appEnv = getenv('APP_ENV') ?: 'development';
+define('APP_ENV', $appEnv);
 
 // Company Attribution
 define('COMPANY_NAME', 'The Data');
@@ -15,8 +18,16 @@ define('COMPANY_FOUNDER', 'Nsengiyumva Elie');
 define('COMPANY_EMAIL', 'nsengaelly61@gmail.com');
 define('COMPANY_YEAR', '2026');
 
-// Base URL
-define('BASE_URL', 'http://localhost/ikiminta/');
+// Base URL - Dynamic for production
+if (APP_ENV === 'production' || isset($_SERVER['HTTP_HOST'])) {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
+    $basePath = ($scriptPath === '/' || $scriptPath === '\\') ? '/' : $scriptPath . '/';
+    define('BASE_URL', $protocol . $host . $basePath);
+} else {
+    define('BASE_URL', 'http://localhost/ikiminta/');
+}
 
 // Paths
 define('APP_PATH', dirname(dirname(__FILE__)) . '/');

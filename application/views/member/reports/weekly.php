@@ -29,6 +29,12 @@
                 </div>
             </div>
 
+            <!-- Current Balance Card -->
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 30px; margin-bottom: 30px; color: white; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);">
+                <h3 style="margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;">💰 Current Balance</h3>
+                <p style="margin: 0; font-size: 42px; font-weight: 700;">RWF <?php echo number_format($report['user']['balance'] ?? 0, 2); ?></p>
+            </div>
+
             <!-- Summary Cards -->
             <div class="summary-cards">
                 <div class="summary-card deposits">

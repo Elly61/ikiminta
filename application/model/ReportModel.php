@@ -52,11 +52,12 @@ class ReportModel {
             [$userId, $startDate, $endDate]
         );
 
-        // Calculate summary statistics
-        $summary = $this->calculateSummary($transactions);
-
         // Get user info
         $user = $this->db->selectOne('SELECT * FROM users WHERE id = ?', [$userId]);
+
+        // Calculate summary from ACTUAL tables (deposits, withdrawals, loans, savings, transfers)
+        $summary = $this->calculateSummaryFromTables($userId, $startDate, $endDate);
+        $summary['transaction_count'] = count($transactions);
 
         return [
             'user' => $user,
@@ -69,7 +70,98 @@ class ReportModel {
     }
 
     /**
-     * Calculate summary statistics from transactions
+     * Calculate summary statistics from actual database tables
+     */
+    private function calculateSummaryFromTables($userId, $startDate, $endDate) {
+        // Get total deposits (completed)
+        $depositsResult = $this->db->selectOne(
+            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM deposits 
+             WHERE user_id = ? AND status = "completed" AND DATE(created_at) BETWEEN ? AND ?',
+            [$userId, $startDate, $endDate]
+        );
+
+        // Get total withdrawals (completed)
+        $withdrawalsResult = $this->db->selectOne(
+            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM withdrawals 
+             WHERE user_id = ? AND status = "completed" AND DATE(created_at) BETWEEN ? AND ?',
+            [$userId, $startDate, $endDate]
+        );
+
+        // Get transfers sent
+        $transfersSentResult = $this->db->selectOne(
+            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM transfers 
+             WHERE sender_id = ? AND status = "completed" AND DATE(created_at) BETWEEN ? AND ?',
+            [$userId, $startDate, $endDate]
+        );
+
+        // Get transfers received
+        $transfersReceivedResult = $this->db->selectOne(
+            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM transfers 
+             WHERE receiver_id = ? AND status = "completed" AND DATE(created_at) BETWEEN ? AND ?',
+            [$userId, $startDate, $endDate]
+        );
+
+        // Get total loans (approved/active)
+        $loansResult = $this->db->selectOne(
+            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM loans 
+             WHERE user_id = ? AND status IN ("approved", "active", "completed") AND DATE(created_at) BETWEEN ? AND ?',
+            [$userId, $startDate, $endDate]
+        );
+
+        // Get loan payments/repayments
+        $loanPaymentsResult = $this->db->selectOne(
+            'SELECT COALESCE(SUM(amount_paid), 0) as total FROM loans 
+             WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ?',
+            [$userId, $startDate, $endDate]
+        );
+
+        // Get total savings
+        $savingsResult = $this->db->selectOne(
+            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM savings 
+             WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ?',
+            [$userId, $startDate, $endDate]
+        );
+
+        $totalDeposits = floatval($depositsResult['total'] ?? 0);
+        $totalWithdrawals = floatval($withdrawalsResult['total'] ?? 0);
+        $totalTransfersSent = floatval($transfersSentResult['total'] ?? 0);
+        $totalTransfersReceived = floatval($transfersReceivedResult['total'] ?? 0);
+        $totalLoans = floatval($loansResult['total'] ?? 0);
+        $totalLoanPayments = floatval($loanPaymentsResult['total'] ?? 0);
+        $totalSavings = floatval($savingsResult['total'] ?? 0);
+
+        // Calculate net change
+        $netChange = $totalDeposits + $totalTransfersReceived + $totalLoans
+                   - $totalWithdrawals - $totalTransfersSent - $totalSavings - $totalLoanPayments;
+
+        // Calculate total transaction count
+        $totalCount = intval($depositsResult['count'] ?? 0) 
+                    + intval($withdrawalsResult['count'] ?? 0)
+                    + intval($transfersSentResult['count'] ?? 0)
+                    + intval($transfersReceivedResult['count'] ?? 0)
+                    + intval($loansResult['count'] ?? 0)
+                    + intval($savingsResult['count'] ?? 0);
+
+        // Calculate average
+        $totalAmount = $totalDeposits + $totalWithdrawals + $totalTransfersSent + $totalTransfersReceived + $totalLoans + $totalSavings;
+        $averageTransaction = $totalCount > 0 ? $totalAmount / $totalCount : 0;
+
+        return [
+            'total_deposits' => $totalDeposits,
+            'total_withdrawals' => $totalWithdrawals,
+            'total_transfers_sent' => $totalTransfersSent,
+            'total_transfers_received' => $totalTransfersReceived,
+            'total_loans' => $totalLoans,
+            'total_loan_payments' => $totalLoanPayments,
+            'total_savings' => $totalSavings,
+            'net_change' => $netChange,
+            'transaction_count' => $totalCount,
+            'average_transaction' => $averageTransaction
+        ];
+    }
+
+    /**
+     * Calculate summary statistics from transactions (legacy - kept for compatibility)
      */
     private function calculateSummary($transactions) {
         $summary = [

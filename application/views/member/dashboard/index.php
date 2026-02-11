@@ -255,6 +255,12 @@
                 <p>Here's your financial overview</p>
             </div>
 
+            <!-- Total Balance Card - Prominent Display -->
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 30px; margin-bottom: 30px; color: white; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);">
+                <h3 style="margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;">💰 Total Balance</h3>
+                <p style="margin: 0; font-size: 42px; font-weight: 700;">RWF <?php echo number_format($total_balance, 2); ?></p>
+            </div>
+
             <!-- Report Navigation -->
             <div style="margin-bottom: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
                 <a href="<?php echo BASE_URL; ?>member/reports/weekly" style="padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.background='#5568d3'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#667eea'; this.style.transform='none';">📊 Weekly Report</a>
