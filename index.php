@@ -39,6 +39,12 @@ require_once dirname(__FILE__) . '/application/controller/BaseController.php';
         }
         // remove any remaining /index.php occurrences
         $request_uri = preg_replace('#/index\.php#', '', $request_uri);
+        
+        // Remove the base folder name (e.g., /ikiminta) from the request URI
+        $base_folder = trim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        if ($base_folder && strpos(trim($request_uri, '/'), $base_folder) === 0) {
+            $request_uri = substr(trim($request_uri, '/'), strlen($base_folder));
+        }
     }
     $request_uri = trim($request_uri, '/');
 
