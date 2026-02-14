@@ -20,7 +20,12 @@ define('COMPANY_YEAR', '2026');
 
 // Base URL - Dynamic for production
 if (APP_ENV === 'production' || isset($_SERVER['HTTP_HOST'])) {
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+    // Check for HTTPS: direct or behind proxy (Render, Cloudflare, etc.)
+    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+            || (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
+            || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+    $protocol = $isHttps ? 'https://' : 'http://';
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
     $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
     $basePath = ($scriptPath === '/' || $scriptPath === '\\') ? '/' : $scriptPath . '/';
