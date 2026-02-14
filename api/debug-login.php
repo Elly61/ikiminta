@@ -10,14 +10,22 @@ header('Content-Type: application/json');
 $db = Database::getInstance();
 $email = $_GET['email'] ?? 'test@gmial.com';
 
+// List all users
+$allUsers = $db->select('SELECT id, email, username, status, user_type, legal_id FROM users ORDER BY id');
+
 $user = $db->selectOne('SELECT id, email, username, status, user_type, password FROM users WHERE email = ?', [$email]);
 
 if (!$user) {
-    echo json_encode(['error' => 'User not found', 'email' => $email]);
+    echo json_encode([
+        'error' => 'User not found', 
+        'email_searched' => $email,
+        'all_users' => $allUsers,
+        'driver' => $db->getDriver()
+    ]);
     exit;
 }
 
-$passwordToTest = '12345678';
+$passwordToTest = $_GET['pass'] ?? '12345678';
 $hashValid = password_verify($passwordToTest, $user['password']);
 
 echo json_encode([
@@ -30,5 +38,6 @@ echo json_encode([
     'password_hash_length' => strlen($user['password']),
     'password_hash_prefix' => substr($user['password'], 0, 7),
     'password_verify_result' => $hashValid,
-    'test_password' => $passwordToTest
+    'test_password' => $passwordToTest,
+    'driver' => $db->getDriver()
 ]);
