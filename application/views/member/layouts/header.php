@@ -1,6 +1,7 @@
 <!-- Member Header -->
 <header class="header">
-    <div class="header-left">
+    <div class="header-left" style="display: flex; align-items: center; gap: 15px;">
+        <button class="hamburger-btn" onclick="openSidebar()">☰</button>
         <h1>IKIMINA Financial System</h1>
     </div>
     <div class="header-right">

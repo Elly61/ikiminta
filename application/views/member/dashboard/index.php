@@ -215,7 +215,7 @@
 
         @media (max-width: 768px) {
             .dashboard-content {
-                padding: 20px;
+                padding: 15px;
             }
 
             .dashboard-stats,
@@ -224,20 +224,55 @@
             }
 
             .dashboard-header h1 {
-                font-size: 24px;
+                font-size: 20px;
+            }
+
+            .balance-amount {
+                font-size: 26px !important;
+            }
+
+            .total-balance-card {
+                padding: 20px !important;
+            }
+
+            .report-nav {
+                gap: 8px !important;
+            }
+
+            .report-btn {
+                padding: 8px 14px !important;
+                font-size: 13px !important;
+                flex: 1;
+                text-align: center;
+                min-width: 0;
             }
 
             .table {
                 font-size: 12px;
+                min-width: 500px;
             }
 
             .table th,
             .table td {
-                padding: 12px;
+                padding: 10px;
             }
 
             .stat-value {
-                font-size: 22px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-header h1 {
+                font-size: 18px;
+            }
+
+            .balance-amount {
+                font-size: 22px !important;
+            }
+
+            .stat-card, .stat-box {
+                padding: 15px;
             }
         }
     </style>
@@ -256,16 +291,16 @@
             </div>
 
             <!-- Total Balance Card - Prominent Display -->
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 30px; margin-bottom: 30px; color: white; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);">
+            <div class="total-balance-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 25px; margin-bottom: 25px; color: white; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);">
                 <h3 style="margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;">💰 Total Balance</h3>
-                <p style="margin: 0; font-size: 42px; font-weight: 700;">RWF <?php echo number_format($total_balance, 2); ?></p>
+                <p class="balance-amount" style="margin: 0; font-size: 36px; font-weight: 700;">RWF <?php echo number_format($total_balance, 2); ?></p>
             </div>
 
             <!-- Report Navigation -->
-            <div style="margin-bottom: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="<?php echo BASE_URL; ?>member/reports/weekly" style="padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.background='#5568d3'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#667eea'; this.style.transform='none';">📊 Weekly Report</a>
-                <a href="<?php echo BASE_URL; ?>member/reports/monthly" style="padding: 12px 24px; background: #10b981; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.background='#059669'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#10b981'; this.style.transform='none';">📈 Monthly Report</a>
-                <a href="<?php echo BASE_URL; ?>member/reports/yearly" style="padding: 12px 24px; background: #8b5cf6; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.background='#7c3aed'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#8b5cf6'; this.style.transform='none';">📅 Yearly Report</a>
+            <div class="report-nav" style="margin-bottom: 25px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="<?php echo BASE_URL; ?>member/reports/weekly" class="report-btn" style="padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">📊 Weekly</a>
+                <a href="<?php echo BASE_URL; ?>member/reports/monthly" class="report-btn" style="padding: 10px 20px; background: #10b981; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">📈 Monthly</a>
+                <a href="<?php echo BASE_URL; ?>member/reports/yearly" class="report-btn" style="padding: 10px 20px; background: #8b5cf6; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">📅 Yearly</a>
             </div>
             
             <div class="dashboard-stats">
@@ -300,6 +335,7 @@
 
             <div class="recent-transactions">
                 <h2>📊 Recent Transactions</h2>
+                <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
@@ -328,6 +364,7 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

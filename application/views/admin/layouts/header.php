@@ -1,6 +1,7 @@
 <!-- Admin Header -->
 <header class="admin-header">
-    <div class="admin-header-left">
+    <div class="admin-header-left" style="display: flex; align-items: center; gap: 15px;">
+        <button class="admin-hamburger-btn" onclick="openAdminSidebar()">☰</button>
         <h1>Admin Panel</h1>
     </div>
     <div class="admin-header-right">

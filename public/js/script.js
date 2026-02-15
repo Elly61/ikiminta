@@ -2,6 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeElements();
+    makeTablesResponsive();
 });
 
 function initializeElements() {
@@ -123,3 +124,20 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+/**
+ * Wrap all .table elements in a .table-responsive div for mobile horizontal scrolling
+ */
+function makeTablesResponsive() {
+    document.querySelectorAll('table.table').forEach(function(table) {
+        // Skip if already wrapped
+        if (table.parentElement && table.parentElement.classList.contains('table-responsive')) return;
+        
+        var wrapper = document.createElement('div');
+        wrapper.className = 'table-responsive';
+        wrapper.style.overflowX = 'auto';
+        wrapper.style.webkitOverflowScrolling = 'touch';
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+    });
+}
