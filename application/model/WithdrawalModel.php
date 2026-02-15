@@ -56,10 +56,10 @@ class WithdrawalModel {
 
     public function getPendingWithdrawRequests() {
         return $this->db->select(
-            'SELECT wr.*, u.email, u.username FROM withdraw_requests wr
+            "SELECT wr.*, u.email, u.username FROM withdraw_requests wr
              JOIN users u ON wr.user_id = u.id
-             WHERE wr.status = "pending"
-             ORDER BY wr.requested_at DESC'
+             WHERE wr.status = 'pending'
+             ORDER BY wr.requested_at DESC"
         );
     }
 
@@ -75,7 +75,7 @@ class WithdrawalModel {
             $this->db->update('users', ['balance' => $newBalance], 'id = ?', [$request['user_id']]);
 
             // Add to admin account (fee)
-            $admin = $this->db->selectOne('SELECT id, balance FROM users WHERE user_type = "super" LIMIT 1');
+            $admin = $this->db->selectOne("SELECT id, balance FROM users WHERE user_type = 'super' LIMIT 1");
             if ($admin) {
                 $newAdminBalance = $admin['balance'] + $request['fee'];
                 $this->db->update('users', ['balance' => $newAdminBalance], 'id = ?', [$admin['id']]);
@@ -135,7 +135,7 @@ class WithdrawalModel {
 
     public function getTotalWithdrawn($userId) {
         $result = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total FROM withdrawals WHERE user_id = ? AND status = "completed"',
+            "SELECT COALESCE(SUM(amount), 0) as total FROM withdrawals WHERE user_id = ? AND status = 'completed'",
             [$userId]
         );
         return $result['total'] ?? 0;
@@ -143,7 +143,7 @@ class WithdrawalModel {
 
     public function getUserWithdrawals($userId) {
         return $this->db->select(
-            'SELECT * FROM withdrawals WHERE user_id = ? ORDER BY date_created DESC',
+            'SELECT * FROM withdrawals WHERE user_id = ? ORDER BY created_at DESC',
             [$userId]
         );
     }

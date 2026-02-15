@@ -19,15 +19,29 @@ class DepositModel {
             return $this->tableColumns;
         }
 
-        $columns = $this->db->select("SHOW COLUMNS FROM $table");
-        if (!$columns) {
-            $this->tableColumns = [];
-            return $this->tableColumns;
+        $driver = $this->db->getDriver();
+        if ($driver === 'pgsql') {
+            $columns = $this->db->select(
+                "SELECT column_name FROM information_schema.columns WHERE table_name = ?",
+                [$table]
+            );
+            if (!$columns) {
+                $this->tableColumns = [];
+                return $this->tableColumns;
+            }
+            $this->tableColumns = array_map(function ($col) {
+                return $col['column_name'] ?? '';
+            }, $columns);
+        } else {
+            $columns = $this->db->select("SHOW COLUMNS FROM $table");
+            if (!$columns) {
+                $this->tableColumns = [];
+                return $this->tableColumns;
+            }
+            $this->tableColumns = array_map(function ($col) {
+                return $col['Field'] ?? '';
+            }, $columns);
         }
-
-        $this->tableColumns = array_map(function ($col) {
-            return $col['Field'] ?? '';
-        }, $columns);
 
         $this->tableColumns = array_values(array_filter($this->tableColumns));
         return $this->tableColumns;
@@ -180,13 +194,13 @@ class DepositModel {
 
     public function getPendingDeposits() {
         return $this->db->select(
-            'SELECT d.*, u.email, u.username FROM deposits d JOIN users u ON d.user_id = u.id WHERE d.status = "pending" ORDER BY d.created_at DESC'
+            "SELECT d.*, u.email, u.username FROM deposits d JOIN users u ON d.user_id = u.id WHERE d.status = 'pending' ORDER BY d.created_at DESC"
         );
     }
 
     public function getTotalDeposited($userId) {
         $result = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total FROM deposits WHERE user_id = ? AND status = "completed"',
+            "SELECT COALESCE(SUM(amount), 0) as total FROM deposits WHERE user_id = ? AND status = 'completed'",
             [$userId]
         );
         return $result['total'] ?? 0;

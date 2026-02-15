@@ -75,43 +75,43 @@ class ReportModel {
     private function calculateSummaryFromTables($userId, $startDate, $endDate) {
         // Get total deposits (completed)
         $depositsResult = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM deposits 
-             WHERE user_id = ? AND status = "completed" AND DATE(created_at) BETWEEN ? AND ?',
+            "SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM deposits 
+             WHERE user_id = ? AND status = 'completed' AND DATE(created_at) BETWEEN ? AND ?",
             [$userId, $startDate, $endDate]
         );
 
         // Get total withdrawals (completed)
         $withdrawalsResult = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM withdrawals 
-             WHERE user_id = ? AND status = "completed" AND DATE(created_at) BETWEEN ? AND ?',
+            "SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM withdrawals 
+             WHERE user_id = ? AND status = 'completed' AND DATE(created_at) BETWEEN ? AND ?",
             [$userId, $startDate, $endDate]
         );
 
         // Get transfers sent
         $transfersSentResult = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM transfers 
-             WHERE sender_id = ? AND status = "completed" AND DATE(created_at) BETWEEN ? AND ?',
+            "SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM transfer_funds 
+             WHERE sender_id = ? AND status = 'completed' AND DATE(created_at) BETWEEN ? AND ?",
             [$userId, $startDate, $endDate]
         );
 
         // Get transfers received
         $transfersReceivedResult = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM transfers 
-             WHERE receiver_id = ? AND status = "completed" AND DATE(created_at) BETWEEN ? AND ?',
+            "SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM transfer_funds 
+             WHERE receiver_id = ? AND status = 'completed' AND DATE(created_at) BETWEEN ? AND ?",
             [$userId, $startDate, $endDate]
         );
 
         // Get total loans (approved/active)
         $loansResult = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total, COUNT(*) as count FROM loans 
-             WHERE user_id = ? AND status IN ("approved", "active", "completed") AND DATE(created_at) BETWEEN ? AND ?',
+            "SELECT COALESCE(SUM(principal_amount), 0) as total, COUNT(*) as count FROM loans 
+             WHERE user_id = ? AND status IN ('approved', 'active', 'completed') AND DATE(created_at) BETWEEN ? AND ?",
             [$userId, $startDate, $endDate]
         );
 
         // Get loan payments/repayments
         $loanPaymentsResult = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount_paid), 0) as total FROM loans 
-             WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ?',
+            "SELECT COALESCE(SUM(total_paid), 0) as total FROM loans 
+             WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ?",
             [$userId, $startDate, $endDate]
         );
 

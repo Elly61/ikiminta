@@ -153,10 +153,19 @@ class Database {
         try {
             $columns = implode(', ', array_keys($data));
             $placeholders = implode(', ', array_fill(0, count($data), '?'));
-            $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute(array_values($data));
-            return $this->pdo->lastInsertId();
+            
+            if ($this->driver === 'pgsql') {
+                $sql = "INSERT INTO $table ($columns) VALUES ($placeholders) RETURNING id";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute(array_values($data));
+                $row = $stmt->fetch();
+                return $row['id'] ?? false;
+            } else {
+                $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute(array_values($data));
+                return $this->pdo->lastInsertId();
+            }
         } catch (PDOException $e) {
             error_log("INSERT Error: " . $e->getMessage());
             return false;

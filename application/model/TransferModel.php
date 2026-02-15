@@ -58,7 +58,7 @@ class TransferModel {
             $this->db->update('users', ['balance' => $newReceiverBalance], 'id = ?', [$receiverId]);
 
             // Add to admin account (fee)
-            $admin = $this->db->selectOne('SELECT id, balance FROM users WHERE user_type = "super" LIMIT 1');
+            $admin = $this->db->selectOne("SELECT id, balance FROM users WHERE user_type = 'super' LIMIT 1");
             if ($admin) {
                 $newAdminBalance = $admin['balance'] + $fee;
                 $this->db->update('users', ['balance' => $newAdminBalance], 'id = ?', [$admin['id']]);
@@ -116,7 +116,7 @@ class TransferModel {
 
     public function getTotalTransferred($userId) {
         $result = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total FROM transfer_funds WHERE sender_id = ? AND status = "completed"',
+            "SELECT COALESCE(SUM(amount), 0) as total FROM transfer_funds WHERE sender_id = ? AND status = 'completed'",
             [$userId]
         );
         return $result['total'] ?? 0;
@@ -124,7 +124,7 @@ class TransferModel {
 
     public function validateReceiver($receiverId, $senderId) {
         // Ensure receiver exists and is not the same as sender
-        $receiver = $this->db->selectOne('SELECT id FROM users WHERE id = ? AND user_type = "member" AND status = "active"', [$receiverId]);
+        $receiver = $this->db->selectOne("SELECT id FROM users WHERE id = ? AND user_type = 'member' AND status = 'active'", [$receiverId]);
         return $receiver && $receiverId != $senderId;
     }
 }

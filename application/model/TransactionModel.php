@@ -25,9 +25,9 @@ class TransactionModel {
 
     public function getTotalCredit($userId) {
         $result = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total FROM transactions 
-             WHERE user_id = ? AND transaction_type IN ("deposit", "transfer_receive", "loan_disbursement", "saving_maturity")
-             AND status = "completed"',
+            "SELECT COALESCE(SUM(amount), 0) as total FROM transactions 
+             WHERE user_id = ? AND transaction_type IN ('deposit', 'transfer_receive', 'loan_disbursement', 'saving_maturity')
+             AND status = 'completed'",
             [$userId]
         );
         return $result['total'] ?? 0;
@@ -35,9 +35,9 @@ class TransactionModel {
 
     public function getTotalDebit($userId) {
         $result = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount + fee), 0) as total FROM transactions 
-             WHERE user_id = ? AND transaction_type IN ("withdrawal", "transfer_send", "saving_creation")
-             AND status = "completed"',
+            "SELECT COALESCE(SUM(amount + fee), 0) as total FROM transactions 
+             WHERE user_id = ? AND transaction_type IN ('withdrawal', 'transfer_send', 'saving_creation')
+             AND status = 'completed'",
             [$userId]
         );
         return $result['total'] ?? 0;
@@ -63,12 +63,12 @@ class TransactionModel {
      */
     public function getSummaryTotals($userId, $startDate, $endDate) {
         $credit = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ? AND transaction_type IN ("deposit", "transfer_receive", "loan_disbursement", "saving_maturity") AND status = "completed"',
+            "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ? AND transaction_type IN ('deposit', 'transfer_receive', 'loan_disbursement', 'saving_maturity') AND status = 'completed'",
             [$userId, $startDate, $endDate]
         );
 
         $debit = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount + COALESCE(fee,0)), 0) as total FROM transactions WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ? AND transaction_type IN ("withdrawal", "transfer_send", "saving_creation") AND status = "completed"',
+            "SELECT COALESCE(SUM(amount + COALESCE(fee,0)), 0) as total FROM transactions WHERE user_id = ? AND DATE(created_at) BETWEEN ? AND ? AND transaction_type IN ('withdrawal', 'transfer_send', 'saving_creation') AND status = 'completed'",
             [$userId, $startDate, $endDate]
         );
 
@@ -90,12 +90,12 @@ class TransactionModel {
      */
     public function getPlatformSummaryTotals($startDate, $endDate) {
         $credit = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE DATE(created_at) BETWEEN ? AND ? AND transaction_type IN ("deposit", "transfer_receive", "loan_disbursement", "saving_maturity") AND status = "completed"',
+            "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE DATE(created_at) BETWEEN ? AND ? AND transaction_type IN ('deposit', 'transfer_receive', 'loan_disbursement', 'saving_maturity') AND status = 'completed'",
             [$startDate, $endDate]
         );
 
         $debit = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount + COALESCE(fee,0)), 0) as total FROM transactions WHERE DATE(created_at) BETWEEN ? AND ? AND transaction_type IN ("withdrawal", "transfer_send", "saving_creation") AND status = "completed"',
+            "SELECT COALESCE(SUM(amount + COALESCE(fee,0)), 0) as total FROM transactions WHERE DATE(created_at) BETWEEN ? AND ? AND transaction_type IN ('withdrawal', 'transfer_send', 'saving_creation') AND status = 'completed'",
             [$startDate, $endDate]
         );
 
@@ -127,16 +127,16 @@ class TransactionModel {
      */
     public function getPlatformDailyNet($startDate, $endDate) {
         $rows = $this->db->select(
-            'SELECT DATE(created_at) as d, 
+            "SELECT DATE(created_at) as d, 
                 SUM(CASE 
-                    WHEN transaction_type IN ("deposit", "transfer_receive", "loan_disbursement", "saving_maturity") THEN amount
-                    WHEN transaction_type IN ("withdrawal", "transfer_send", "saving_creation") THEN - (amount + COALESCE(fee,0))
+                    WHEN transaction_type IN ('deposit', 'transfer_receive', 'loan_disbursement', 'saving_maturity') THEN amount
+                    WHEN transaction_type IN ('withdrawal', 'transfer_send', 'saving_creation') THEN - (amount + COALESCE(fee,0))
                     ELSE 0 END) as net
              FROM transactions
-             WHERE DATE(created_at) BETWEEN ? AND ? AND status = "completed"
+             WHERE DATE(created_at) BETWEEN ? AND ? AND status = 'completed'
              GROUP BY DATE(created_at)
              ORDER BY DATE(created_at)
-            ',
+            ",
             [$startDate, $endDate]
         );
 

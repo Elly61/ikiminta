@@ -104,7 +104,7 @@ class SavingsModel {
 
     public function getTotalSavings($userId) {
         $result = $this->db->selectOne(
-            'SELECT COALESCE(SUM(amount), 0) as total FROM savings WHERE user_id = ? AND status = "active"',
+            "SELECT COALESCE(SUM(amount), 0) as total FROM savings WHERE user_id = ? AND status = 'active'",
             [$userId]
         );
         return $result['total'] ?? 0;
@@ -112,7 +112,7 @@ class SavingsModel {
 
     public function getActiveSavings() {
         return $this->db->select(
-            'SELECT * FROM savings WHERE status = "active" AND maturity_date <= CURDATE()'
+            "SELECT * FROM savings WHERE status = 'active' AND maturity_date <= CURRENT_DATE"
         );
     }
 }

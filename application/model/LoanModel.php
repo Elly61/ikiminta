@@ -41,10 +41,10 @@ class LoanModel {
 
     public function getPendingLoanRequests() {
         return $this->db->select(
-            'SELECT lr.*, u.email, u.username, u.phone_number FROM loan_requests lr
+            "SELECT lr.*, u.email, u.username, u.phone_number FROM loan_requests lr
              JOIN users u ON lr.user_id = u.id
-             WHERE lr.status = "pending"
-             ORDER BY lr.requested_at DESC'
+             WHERE lr.status = 'pending'
+             ORDER BY lr.requested_at DESC"
         );
     }
 
@@ -176,7 +176,7 @@ class LoanModel {
 
     public function getTotalLoanAmount($userId) {
         $result = $this->db->selectOne(
-            'SELECT COALESCE(SUM(principal_amount), 0) as total FROM loans WHERE user_id = ? AND status IN ("active", "completed")',
+            "SELECT COALESCE(SUM(principal_amount), 0) as total FROM loans WHERE user_id = ? AND status IN ('active', 'completed')",
             [$userId]
         );
         return $result['total'] ?? 0;

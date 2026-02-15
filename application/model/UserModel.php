@@ -105,7 +105,7 @@ class UserModel {
 
     public function getAllActiveMembers() {
         return $this->db->select(
-            'SELECT id, username, phone_number, email, first_name, last_name FROM users WHERE user_type = "member" AND status = "active" ORDER BY username ASC'
+            "SELECT id, username, phone_number, email, first_name, last_name FROM users WHERE user_type = 'member' AND status = 'active' ORDER BY username ASC"
         );
     }
 
@@ -132,7 +132,7 @@ class UserModel {
 
     public function getAllUsers($limit = 50, $offset = 0) {
         return $this->db->select(
-            'SELECT * FROM users WHERE user_type = "member" ORDER BY date_created DESC LIMIT ? OFFSET ?',
+            "SELECT * FROM users WHERE user_type = 'member' ORDER BY date_created DESC LIMIT ? OFFSET ?",
             [$limit, $offset]
         );
     }
