@@ -104,5 +104,6 @@ document.getElementById('searchInput').addEventListener('keyup', function(e) {
     });
 });
 </script>
+<?php include VIEW_PATH . 'member/layouts/footer.php'; ?>
 </body>
 </html>

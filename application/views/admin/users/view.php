@@ -406,5 +406,6 @@ function activateUser(userId) {
     }
 }
 </script>
+<?php include VIEW_PATH . 'admin/layouts/footer.php'; ?>
 </body>
 </html>

@@ -17,11 +17,55 @@
     --border-color: #e5e7eb;
 }
 
+/* Global auto-fit: prevent any horizontal scrollbar */
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--light-bg);
     color: var(--dark-text);
     line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* ============= COMPANY FOOTER ============= */
+.company-footer {
+    text-align: center;
+    padding: 15px 20px;
+    background: #1e293b;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    margin-top: auto;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.company-footer p {
+    margin: 0 0 4px 0;
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.company-footer p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+    .company-footer {
+        font-size: 10px;
+        padding: 12px 15px;
+    }
+
+    .company-footer p {
+        font-size: 10px;
+    }
 }
 
 /* Dashboard Wrapper */
@@ -523,5 +567,77 @@ body {
 @media (max-width: 768px) {
     .sidebar-close {
         display: flex;
+    }
+}
+
+/* ============= GLOBAL AUTO-FIT RULES ============= */
+/* Ensure all images fit within their containers */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Ensure inputs and textareas don't overflow */
+input, textarea, select, button {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure pre and code blocks don't overflow */
+pre, code {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+/* Mobile: stack flex layouts that use inline styles */
+@media (max-width: 768px) {
+    [style*="display:flex"],
+    [style*="display: flex"] {
+        flex-wrap: wrap !important;
+    }
+
+    [style*="width:320px"],
+    [style*="width: 320px"] {
+        width: 100% !important;
+    }
+
+    [style*="min-width:300px"],
+    [style*="min-width: 300px"] {
+        min-width: 0 !important;
+        width: 100% !important;
+    }
+
+    [style*="max-width:900px"],
+    [style*="max-width: 900px"],
+    [style*="max-width:980px"],
+    [style*="max-width: 980px"],
+    [style*="max-width:600px"],
+    [style*="max-width: 600px"] {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    [style*="padding: 30px"],
+    [style*="padding:30px"] {
+        padding: 15px !important;
+    }
+
+    /* Ensure canvas charts are responsive */
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+@media (max-width: 480px) {
+    [style*="padding: 30px"],
+    [style*="padding:30px"] {
+        padding: 10px !important;
+    }
+
+    [style*="gap:20px"],
+    [style*="gap: 20px"] {
+        gap: 10px !important;
     }
 }
