@@ -276,6 +276,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-<?php include VIEW_PATH . 'member/layouts/footer.php'; ?>
 </body>
 </html>

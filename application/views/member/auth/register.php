@@ -258,10 +258,10 @@
 </div>
 
 <!-- Company Branding -->
-<div class="company-footer">
-    <p><?php echo COMPANY_POWERED_BY; ?></p>
-    <p>CEO: <?php echo COMPANY_CEO; ?> | Founder: <?php echo COMPANY_FOUNDER; ?></p>
-    <p>&copy; <?php echo COMPANY_YEAR; ?> <?php echo COMPANY_NAME; ?>. All rights reserved.</p>
+<div class="company-footer" style="text-align: center; padding: 20px; color: rgba(255,255,255,0.7); font-size: 12px; position: fixed; bottom: 0; left: 0; right: 0;">
+    <p style="margin: 0;"><?php echo COMPANY_POWERED_BY; ?></p>
+    <p style="margin: 5px 0 0 0; font-size: 11px;">CEO: <?php echo COMPANY_CEO; ?> | Founder: <?php echo COMPANY_FOUNDER; ?></p>
+    <p style="margin: 5px 0 0 0; font-size: 11px;">&copy; <?php echo COMPANY_YEAR; ?> <?php echo COMPANY_NAME; ?>. All rights reserved.</p>
 </div>
 
 <script src="<?php echo BASE_URL; ?>public/js/auth.js"></script>

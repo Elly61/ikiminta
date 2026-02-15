@@ -84,6 +84,5 @@ document.getElementById('profileForm').addEventListener('submit', function(e) {
     });
 });
 </script>
-<?php include VIEW_PATH . 'member/layouts/footer.php'; ?>
 </body>
 </html>

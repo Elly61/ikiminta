@@ -139,11 +139,9 @@
 </script>
 
 <!-- Company Branding Footer -->
-<footer class="company-footer">
-    <p><?php echo COMPANY_POWERED_BY; ?></p>
-    <p>CEO: <?php echo COMPANY_CEO; ?> | Founder: <?php echo COMPANY_FOUNDER; ?></p>
-    <p>&copy; <?php echo COMPANY_YEAR; ?> <?php echo COMPANY_NAME; ?>. All rights reserved.</p>
-    <p>Contact: <?php echo COMPANY_EMAIL; ?></p>
+<footer class="company-footer" style="text-align: center; padding: 15px; background: #1e293b; color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 20px;">
+    <p style="margin: 0;"><?php echo COMPANY_POWERED_BY; ?> | CEO: <?php echo COMPANY_CEO; ?> | Founder: <?php echo COMPANY_FOUNDER; ?></p>
+    <p style="margin: 5px 0 0 0; font-size: 11px;">&copy; <?php echo COMPANY_YEAR; ?> <?php echo COMPANY_NAME; ?>. All rights reserved. | Contact: <?php echo COMPANY_EMAIL; ?></p>
 </footer>
 
 <script src="<?php echo BASE_URL; ?>public/js/script.js"></script>

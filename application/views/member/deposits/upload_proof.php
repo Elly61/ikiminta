@@ -316,6 +316,5 @@ form.addEventListener('submit', async (e) => {
     }
 });
 </script>
-<?php include VIEW_PATH . 'member/layouts/footer.php'; ?>
 </body>
 </html>

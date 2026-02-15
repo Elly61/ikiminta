@@ -216,6 +216,5 @@
 </div>
 
 <script src="<?php echo BASE_URL; ?>public/js/script.js"></script>
-<?php include VIEW_PATH . 'member/layouts/footer.php'; ?>
 </body>
 </html>

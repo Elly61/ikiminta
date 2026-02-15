@@ -482,6 +482,5 @@
         this.submit();
     });
 </script>
-<?php include VIEW_PATH . 'member/layouts/footer.php'; ?>
 </body>
 </html>
