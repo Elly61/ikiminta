@@ -54,9 +54,11 @@ class LoanModel {
 
             $request = $this->getLoanRequestById($requestId);
 
-            // Calculate monthly payment
-            $monthlyRate = $interestRate / 100 / 12;
-            $monthlyPayment = ($request['amount'] * $monthlyRate) / (1 - pow(1 + $monthlyRate, -$request['duration_months']));
+            // Simple/flat interest: Total = Principal + (Principal × Rate%)
+            // Monthly payment = Total / Duration
+            $interest = $request['amount'] * ($interestRate / 100);
+            $totalRepayment = $request['amount'] + $interest;
+            $monthlyPayment = $totalRepayment / $request['duration_months'];
 
             // Create loan record
             $startDate = date('Y-m-d');

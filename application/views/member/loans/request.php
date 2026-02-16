@@ -391,7 +391,7 @@
                         </div>
 
                         <div class="info-box" style="margin-top: 20px; border-left-color: #667eea;">
-                            <strong>💡 Note:</strong> Estimates are based on <?php echo htmlspecialchars($default_interest_rate ?? '1.5'); ?>% annual interest rate. 
+                            <strong>💡 Note:</strong> Estimates are based on <?php echo htmlspecialchars($default_interest_rate ?? '1.5'); ?>% interest rate on the principal. 
                             Final terms will be confirmed upon approval.
                         </div>
                     </div>
@@ -408,7 +408,7 @@
     const loanForm = document.getElementById('loanForm');
     const submitBtn = document.getElementById('submitBtn');
 
-    // Loan interest rate from admin settings (monthly rate, convert to annual for calculations)
+    // Loan interest rate from admin settings (flat rate on principal)
     const defaultInterestRate = <?php echo json_encode(floatval($default_interest_rate ?? 1.5)); ?>;
     const INTEREST_RATE = (defaultInterestRate / 100); // Convert percentage to decimal
 
@@ -420,11 +420,10 @@
         document.getElementById('summaryAmount').textContent = formatCurrency(amount);
 
         if (months > 0 && amount > 0) {
-            // Calculate monthly payment using standard loan formula
-            const monthlyRate = INTEREST_RATE / 12;
-            const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
-                                  (Math.pow(1 + monthlyRate, months) - 1);
-            const totalRepayment = monthlyPayment * months;
+            // Simple/flat interest: Total = Principal + (Principal × Rate%)
+            const interest = amount * INTEREST_RATE;
+            const totalRepayment = amount + interest;
+            const monthlyPayment = totalRepayment / months;
 
             document.getElementById('summaryDuration').textContent = months + ' months';
             document.getElementById('summaryMonthly').textContent = formatCurrency(monthlyPayment);
