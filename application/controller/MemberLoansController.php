@@ -120,10 +120,53 @@ class MemberLoansController extends BaseController {
             $this->redirect(BASE_URL . 'member/loans');
         }
 
-        $payments = [];
+        $payments = $this->loanModel->getLoanPayments($loanId);
+        $totalOwed = $loan['monthly_payment'] * $loan['duration_months'];
+        $remaining = $totalOwed - $loan['total_paid'];
+
         $this->loadView('member/loans/view', [
             'loan' => $loan,
-            'payments' => $payments
+            'payments' => $payments,
+            'user' => $user,
+            'total_owed' => $totalOwed,
+            'remaining' => $remaining
         ]);
+    }
+
+    public function pay($loanId) {
+        $this->requireAjaxAuth();
+        $user = $this->getCurrentUser();
+
+        $loan = $this->loanModel->getLoanById($loanId);
+        if (!$loan || $loan['user_id'] != $user['id'] || $loan['status'] !== 'active') {
+            return $this->response('error', 'Invalid loan or loan is not active');
+        }
+
+        $amount = floatval($_POST['amount'] ?? 0);
+        if ($amount <= 0) {
+            return $this->response('error', 'Invalid payment amount');
+        }
+
+        // Check balance
+        if ($user['balance'] < $amount) {
+            return $this->response('error', 'Insufficient balance. Your balance is RWF ' . number_format($user['balance'], 2));
+        }
+
+        // Don't allow overpayment
+        $totalOwed = $loan['monthly_payment'] * $loan['duration_months'];
+        $remaining = $totalOwed - $loan['total_paid'];
+        if ($amount > $remaining) {
+            return $this->response('error', 'Payment exceeds remaining balance. You only owe RWF ' . number_format($remaining, 2));
+        }
+
+        $result = $this->loanModel->makeLoanPayment($loanId, $amount, $user['id']);
+
+        if ($result === true) {
+            return $this->response('success', 'Payment of RWF ' . number_format($amount, 2) . ' recorded successfully', [
+                'redirect' => BASE_URL . 'member/loans/viewLoan/' . $loanId
+            ]);
+        } else {
+            return $this->response('error', is_string($result) ? $result : 'Payment failed');
+        }
     }
 }

@@ -126,11 +126,26 @@ class LoanModel {
         return $this->db->selectOne('SELECT * FROM loans WHERE id = ?', [$loanId]);
     }
 
-    public function makeLoanPayment($loanId, $paymentAmount, $proofPath = null) {
+    public function makeLoanPayment($loanId, $paymentAmount, $userId, $proofPath = null) {
         try {
             $this->db->beginTransaction();
 
             $loan = $this->getLoanById($loanId);
+
+            // Verify loan belongs to user and is active
+            if (!$loan || $loan['user_id'] != $userId || $loan['status'] !== 'active') {
+                throw new Exception('Invalid loan');
+            }
+
+            // Check user balance
+            $user = $this->db->selectOne('SELECT balance FROM users WHERE id = ?', [$userId]);
+            if ($user['balance'] < $paymentAmount) {
+                throw new Exception('Insufficient balance');
+            }
+
+            // Deduct from user balance
+            $newBalance = $user['balance'] - $paymentAmount;
+            $this->db->update('users', ['balance' => $newBalance], 'id = ?', [$userId]);
 
             // Record payment
             $paymentData = [
@@ -153,16 +168,19 @@ class LoanModel {
 
             // Record transaction
             $this->db->insert('transactions', [
-                'user_id' => $loan['user_id'],
+                'user_id' => $userId,
                 'transaction_type' => 'loan_payment',
                 'amount' => $paymentAmount,
+                'balance_before' => $user['balance'],
+                'balance_after' => $newBalance,
                 'reference_id' => $loanId,
-                'description' => 'Loan Payment',
+                'description' => 'Loan Payment - Loan #' . $loanId,
                 'status' => 'completed'
             ]);
 
-            // Check if loan is fully paid
-            if ($newTotalPaid >= ($loan['principal_amount'] * (1 + $loan['interest_rate'] / 100))) {
+            // Check if loan is fully paid (total owed = monthly_payment × duration)
+            $totalOwed = $loan['monthly_payment'] * $loan['duration_months'];
+            if ($newTotalPaid >= $totalOwed) {
                 $this->db->update('loans', ['status' => 'completed'], 'id = ?', [$loanId]);
             }
 
@@ -170,8 +188,15 @@ class LoanModel {
             return true;
         } catch (Exception $e) {
             $this->db->rollback();
-            return false;
+            return $e->getMessage();
         }
+    }
+
+    public function getLoanPayments($loanId) {
+        return $this->db->select(
+            'SELECT * FROM loan_payments WHERE loan_id = ? ORDER BY payment_date DESC',
+            [$loanId]
+        );
     }
 
     public function getTotalLoanAmount($userId) {

@@ -29,10 +29,10 @@
                             <th>Amount</th>
                             <th>Interest Rate</th>
                             <th>Monthly Payment</th>
+                            <th>Total Paid</th>
                             <th>Duration</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,10 +42,14 @@
                                 <td>RWF <?php echo number_format($loan['principal_amount'], 2); ?></td>
                                 <td><?php echo $loan['interest_rate']; ?>%</td>
                                 <td>RWF <?php echo number_format($loan['monthly_payment'], 2); ?></td>
+                                <td>RWF <?php echo number_format($loan['total_paid'], 2); ?></td>
                                 <td><?php echo $loan['duration_months']; ?> months</td>
-                                <td><?php echo date('M d, Y', strtotime($loan['start_date'])); ?></td>
-                                <td><?php echo date('M d, Y', strtotime($loan['end_date'])); ?></td>
                                 <td><span class="status <?php echo strtolower($loan['status']); ?>"><?php echo ucfirst($loan['status']); ?></span></td>
+                                <td>
+                                    <a href="<?php echo BASE_URL; ?>member/loans/viewLoan/<?php echo $loan['id']; ?>" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">
+                                        <?php echo $loan['status'] === 'active' ? '💳 Pay' : '👁 View'; ?>
+                                    </a>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
