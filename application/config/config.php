@@ -11,7 +11,7 @@ $appEnv = getenv('APP_ENV') ?: 'development';
 define('APP_ENV', $appEnv);
 
 // Company Attribution
-define('COMPANY_NAME', 'The Data');
+define('COMPANY_NAME', '');
 define('COMPANY_POWERED_BY', 'Powered by Badilis');
 define('COMPANY_CEO', '');
 define('COMPANY_FOUNDER', '');
