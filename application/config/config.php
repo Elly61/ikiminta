@@ -12,10 +12,10 @@ define('APP_ENV', $appEnv);
 
 // Company Attribution
 define('COMPANY_NAME', 'The Data');
-define('COMPANY_POWERED_BY', 'Powered by The Data');
-define('COMPANY_CEO', 'Kiza God');
-define('COMPANY_FOUNDER', 'Nsengiyumva Elie');
-define('COMPANY_EMAIL', 'nsengaelly61@gmail.com');
+define('COMPANY_POWERED_BY', 'Powered by Badilis');
+define('COMPANY_CEO', '');
+define('COMPANY_FOUNDER', '');
+define('COMPANY_EMAIL', '');
 define('COMPANY_YEAR', '2026');
 
 // Base URL - Dynamic for production
