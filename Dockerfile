@@ -47,4 +47,12 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 # Expose port
 EXPOSE ${PORT}
 
-CMD ["apache2-foreground"]
+# Create startup script that initializes DB and starts Apache
+RUN echo '#!/bin/bash' > /usr/local/bin/start.sh && \
+    echo 'echo "[STARTUP] Running database initialization..."' >> /usr/local/bin/start.sh && \
+    echo 'php /var/www/html/init-db.php' >> /usr/local/bin/start.sh && \
+    echo 'echo "[STARTUP] Starting Apache..."' >> /usr/local/bin/start.sh && \
+    echo 'apache2-foreground' >> /usr/local/bin/start.sh && \
+    chmod +x /usr/local/bin/start.sh
+
+CMD ["/usr/local/bin/start.sh"]
