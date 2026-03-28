@@ -27,10 +27,10 @@ function handleFormSubmit(form) {
         if (data.status === 'success') {
             showMessage(data.message, 'success');
             if (data.data && data.data.redirect) {
-                // Redirect immediately after showing message briefly
+                // Redirect after message is shown
                 setTimeout(() => {
                     window.location.replace(data.data.redirect);
-                }, 500);
+                }, 1000);
             }
         } else {
             showMessage(data.message, 'error');
@@ -50,9 +50,10 @@ function showMessage(message, type) {
     const container = document.querySelector('.auth-form') || document.body;
     container.insertBefore(messageDiv, container.firstChild);
     
+    // Auto-remove message after 3 seconds
     setTimeout(() => {
         messageDiv.remove();
-    }, 5000);
+    }, 3000);
 }
 
 // Password validation
