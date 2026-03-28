@@ -24,12 +24,15 @@ function handleFormSubmit(form) {
     })
     .then(response => response.json())
     .then(data => {
+        console.log('Response data:', data);
         if (data.status === 'success') {
             showMessage(data.message, 'success');
             if (data.data && data.data.redirect) {
+                console.log('Redirecting to:', data.data.redirect);
                 // Redirect after message is shown
                 setTimeout(() => {
-                    window.location.replace(data.data.redirect);
+                    console.log('Executing redirect now');
+                    window.location.href = data.data.redirect;
                 }, 1000);
             }
         } else {
