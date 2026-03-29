@@ -168,9 +168,8 @@ require_once 'application/config/Database.php';
                 // Update existing
                 $updateQuery = "UPDATE users 
                     SET password = :password, 
-                        user_type = 'admin', 
-                        status = 'active',
-                        updated_at = NOW() 
+                        user_type = 'super', 
+                        status = 'active'
                     WHERE id = :id";
                 
                 $stmt = $pdo->prepare($updateQuery);
@@ -188,9 +187,9 @@ require_once 'application/config/Database.php';
             } else {
                 // Create new
                 $insertQuery = "INSERT INTO users 
-                    (username, email, password, first_name, last_name, legal_id, phone_number, user_type, status, balance, created_at, updated_at) 
+                    (username, email, password, first_name, last_name, legal_id, phone_number, user_type, status, balance) 
                     VALUES 
-                    (:username, :email, :password, :first_name, :last_name, :legal_id, :phone_number, :user_type, :status, :balance, NOW(), NOW())";
+                    (:username, :email, :password, :first_name, :last_name, :legal_id, :phone_number, :user_type, :status, :balance)";
                 
                 $stmt = $pdo->prepare($insertQuery);
                 $result = $stmt->execute([
@@ -201,7 +200,7 @@ require_once 'application/config/Database.php';
                     ':last_name' => $lastName,
                     ':legal_id' => $legalId,
                     ':phone_number' => $phone,
-                    ':user_type' => 'admin',
+                    ':user_type' => 'super',
                     ':status' => 'active',
                     ':balance' => 0
                 ]);
@@ -228,6 +227,7 @@ require_once 'application/config/Database.php';
             echo '<tr><td><strong>Email</strong></td><td><code>' . htmlspecialchars($email) . '</code></td></tr>';
             echo '<tr><td><strong>Password</strong></td><td><code>' . htmlspecialchars($password) . '</code></td></tr>';
             echo '<tr><td><strong>Username</strong></td><td><code>' . htmlspecialchars($username) . '</code></td></tr>';
+            echo '<tr><td><strong>User Type</strong></td><td><code>super (Admin)</code></td></tr>';
             echo '</table>';
 
             echo '<br><div class="step">';
